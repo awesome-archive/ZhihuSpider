@@ -27,6 +27,7 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ import java.util.List;
  * Created by seven on 2016/12/2.
  */
 public class ParserFollower extends ParserBase {
-
+    Logger logger =Logger.getLogger("error_");
     public ParserFollower(UserBase names, MainMangerControl mc) {
         super(names,mc);
     }
@@ -73,9 +74,11 @@ public class ParserFollower extends ParserBase {
             for (int i = 0; i < jsonObject.getJSONArray("data").size(); i++) {
                 ub = new UserBase();
                 ub.setToken(jsonObject.getJSONArray("data").getJSONObject(i).get("url_token").toString());
+                ub.setName(jsonObject.getJSONArray("data").getJSONObject(i).get("name").toString());
                 ub.setUrl("https://www.zhihu.com/people/".concat(ub.getToken()));
                 ub.setFrom_id(userBase.getId());
                 ub.setFrom_token(userBase.getToken());
+                ub.setName(jsonObject.getJSONArray("data").getJSONObject(i).get("name").toString());
                 followNexuses.add(new FollowNexus(userBase.getToken(), ub.getToken(),ub.getName(),userBase.getName()));
 
                 userBases.add(ub);
@@ -110,7 +113,7 @@ public class ParserFollower extends ParserBase {
         try {
             this.parser();
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("获取Folloer出错--->",e);
         }
 
     }

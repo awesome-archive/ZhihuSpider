@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mysqlcas
-Source Server Version : 50167
+Source Server         : Seven
+Source Server Version : 50624
 Source Host           : localhost:3306
-Source Database       : seven
+Source Database       : zhihuspider
 
 Target Server Type    : MYSQL
-Target Server Version : 50167
+Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-12-29 09:43:25
+Date: 2017-01-11 17:29:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,11 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `follower`;
 CREATE TABLE `follower` (
   `user_token` varchar(255) DEFAULT NULL,
-  `user_token_follower` varchar(255) DEFAULT NULL
+  `user_token_follower` varchar(255) DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_name` varchar(255) DEFAULT NULL,
+  `follower_name` varchar(255) DEFAULT NULL,
+  KEY `tokens` (`user_token`,`user_token_follower`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -36,9 +40,10 @@ CREATE TABLE `users` (
   `from_id` int(255) NOT NULL,
   `from_token` varchar(255) NOT NULL,
   `isparser` int(1) DEFAULT '0',
+  `updatetime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `users_token_index` (`token`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1216003 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=326184 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users_info
@@ -63,8 +68,11 @@ CREATE TABLE `users_info` (
   `topic` varchar(255) DEFAULT NULL,
   `columns` varchar(255) DEFAULT NULL,
   `sex` varchar(255) DEFAULT NULL,
-  `updatetime` timestamp NULL DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `weibo` varchar(255) DEFAULT NULL,
   `token` varchar(255) DEFAULT NULL,
-  `index_url` varchar(255) DEFAULT NULL
+  `index_url` varchar(255) DEFAULT NULL,
+  KEY `tokens_users` (`token`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
